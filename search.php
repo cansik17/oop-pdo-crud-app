@@ -1,8 +1,9 @@
 <?php
 include 'configs/header.php';
 require_once('configs/controller.php');
+require_once('configs/function.php');
 
-$q    =    $_POST["search"];
+$q    =    safe($_POST["search"]);
 
 $object = new Controller();
 $customers = $object->search($q);

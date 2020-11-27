@@ -1,41 +1,52 @@
 <?php
 
 require_once('controller.php');
-
-//create
-if (isset($_POST['createData'])) {
-    if (isset($_POST['name']) && isset($_POST['email']) && isset($_POST['phone'])) {
-
-        $name = $_POST['name'];
-        $email = $_POST['email'];
-        $phone = $_POST['phone'];
-        $info = $_POST['info'];
+require_once('function.php');
 
 
-        $object = new Controller();
+// //create
+// if (isset($_POST['createData'])) {
+//     if (($_POST['name']!="") and ($_POST['email']!="") and ($_POST['phone']!="")) {
 
-        $object->Create($name, $email, $phone, $info);
+//         $name = safe($_POST['name']);
+//         $email = safe($_POST['email']);
+//         $phone = safe($_POST['phone']);
+//         $info = safe($_POST['info']);
 
-        header("Location:../index.php");
-    }
-}
+
+//         $object = new Controller();
+
+//         $object->Create($name, $email, $phone, $info);
+
+//         header("Location:../create.php?alert=ok");
+  
+//     }else {
+//         header("Location:../create.php?alert=no");
+//     }
+// }
 
 //update
-if (isset($_POST['updateData'])) {
+// if (isset($_POST['updateData'])) {
 
-    $id = $_POST['id'];
-    $name = $_POST['name'];
-    $email = $_POST['email'];
-    $phone = $_POST['phone'];
-    $info = $_POST['info'];
+//     if (($_POST['name'] != "") and ($_POST['email'] != "") and ($_POST['phone'] != "")) {
+  
+//     $id = safe($_POST['id']);
+//     $name = safe($_POST['name']);
+//     $email = safe($_POST['email']);
+//     $phone = safe($_POST['phone']);
+//     $info = safe($_POST['info']);
 
-    $object = new Controller();
+//     $object = new Controller();
 
-    $object->Update($name, $email, $phone, $info, $id);
+//     $object->Update($name, $email, $phone, $info, $id);
 
-    header("Location:../index.php");
-    
-}
+//     header("Location:../index.php?alert=ok");
+
+//     } else {
+//         header("Location:../index.php?alert=no");
+//     }
+ 
+// }
 //details
 
 // if (isset($_POST['id']) && isset($_POST['id']) != "") {
@@ -49,21 +60,27 @@ if (isset($_POST['updateData'])) {
 
 //delete
 
-if (isset($_GET['uid']) && isset($_GET['uid']) != "") {
+if (isset($_GET['uid'])) {
+    if ($_GET['uid'] != "") {
+        $uid = safe($_GET['uid']);
 
-    $uid = $_GET['uid'];
+        $object = new Controller();
+        $object->Delete($uid);
 
-    $object = new Controller();
-    $object->Delete($uid);
+        header("Location:../index.php?alert=ok");
+    }else {
+        header("Location:../index.php?alert=no");
+    }
+    
+    
 
-    header("Location:../index.php");
-}
+    }
 
 //search
 
 if (isset($_POST['search'])) {
 
-    $q    =    $_POST["search"];
+    $q    =    safe($_POST["search"]);
     if (empty($q)) {
         Header("Location:../index.php");
     } else {

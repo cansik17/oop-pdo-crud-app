@@ -1,6 +1,7 @@
 <?php
 include 'configs/header.php';
 require_once('configs/controller.php');
+require_once('configs/function.php');
 
 ?>
 
@@ -28,18 +29,48 @@ require_once('configs/controller.php');
 			</div>
 		</div>
 	</form>
+	<?php
+	if (isset($_GET['alert'])) {
+		
+		if ($_GET['alert']=='ok') {
+
+		?>
+			<div class="alert alert-success alert-dismissible fade show" role="alert">
+				The operation completed<strong> successfully!</strong>
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+		<?php
+		}
+		
+		else {
+
+		?>
+			<div class="alert alert-danger alert-dismissible fade show" role="alert">
+				sorry, there was an <strong> error!</strong> Please try again.
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+		<?php
+		}
+	}
+	?>
+
+
 	<div class="row">
 		<div class="col-md-12">
 			<h3>Records:</h3>
 			<?php
 			if (isset($_REQUEST["p"])) {
-				$page    =  $_REQUEST["p"];
+				$page    =  safe($_REQUEST["p"]);
 			} else {
 				$page    =  1;
 			}
 
 			$btnCount    =  5;
-			$recordsPerPage    =  3;
+			$recordsPerPage    =  5;
 			$totalRecordsQuery        =  DB()->prepare("SELECT * FROM customers");
 			$totalRecordsQuery->execute();
 			$totalRecordCount            =  $totalRecordsQuery->rowCount();
@@ -106,7 +137,7 @@ require_once('configs/controller.php');
 							<td><?php echo $customer['phone']; ?></td>
 							<td><?php echo $customer['info']; ?></td>
 							<td>
-								<a href="details.php?id=<?php echo $customer['id']; ?>" class="btn btn-sm btn-primary">Json</button>
+								<a href="details.php?id=<?php echo $customer['id']; ?>" class="btn btn-sm btn-primary" target="_blank">Json</button>
 							</td>
 							<td>
 								<a href="update.php?id=<?php echo $customer['id']; ?>" class="btn btn-warning">Update</button>

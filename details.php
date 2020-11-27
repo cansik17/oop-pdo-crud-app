@@ -2,11 +2,12 @@
 
 <?php
 include 'configs/header.php';
+require_once('configs/function.php');
 
 ?>
    <?php
     require_once('configs/controller.php');
-    $id = $_GET['id'];
+    $id = safe($_GET['id']);
 
     $object = new Controller();
     $customer = $object->Details($id);
